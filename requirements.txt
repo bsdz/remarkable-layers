@@ -1,0 +1,14 @@
+certifi==2020.6.20
+chardet==3.0.4
+idna==2.9
+lxml==4.5.1
+numpy==1.19.0
+pillow==7.1.2
+pyaml==19.4.1
+-e git+https://github.com/flupke/pypotrace.git@76c76be2458eb2b56fcbd3bec79b1b4077e35d9e#egg=pypotrace
+pyyaml==5.3.1
+requests==2.24.0
+-e git+https://github.com/bsdz/rmapy.git@d53983e68021402f6b1dc8d736633a9c53f903b2#egg=rmapy
+-e git+https://github.com/mathandy/svgpathtools.git@f99f9d6bb3519ecdcb7b167f75a09178595cf89c#egg=svgpathtools
+svgwrite==1.4
+urllib3==1.25.9
