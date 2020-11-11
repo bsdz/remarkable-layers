@@ -58,7 +58,7 @@ Convert simple SVG file into RM Lines format. Can only contain paths with simple
 
 ```python
 p = Path("./my_simple.svg")
-rm0 = RMLines.from_svg(f.open("rb")
+rm0 = RMLines.from_svg(f.open("rb"))
 ```
 
 ## Example Scripts
@@ -88,12 +88,13 @@ This script uses hershey stroke fonts to place text in Remarkable lines files wi
 
 Currently, one should initialize their connection to Remarkable Cloud using rmapy directly. You can obtain a one time token from [Remarkable's Mobile Connect](https://my.remarkable.com/connect/mobile) page.
 
-Then follow example as [described here](https://rmapy.readthedocs.io/en/latest/quickstart.html#registering-the-api-client). Eg,
+The official Wiki for rmapy has obsolete syntax, but may still prove useful as examples to follow if you're lost.[You can find it here.](https://rmapy.readthedocs.io/en/latest/quickstart.html#registering-the-api-client). Eg,
 
 ```python
 from rmapy.api import Client
 rmapy = Client()
 rmapy.register_device("<YOUR ONE TIME TOKEN>")
+rmapy.renew_token()
 ```
 You should only need to do this once.
 
