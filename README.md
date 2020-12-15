@@ -10,7 +10,11 @@ This module and supporting routines are experimental.
 
 The module is still in development. You can install it by cloning this repository and using the [poetry install](https://python-poetry.org/docs/cli/#install) command.
 
-Alternatively, you can use pip install -r requirements.txt. This was generated using [poetry export](https://python-poetry.org/docs/cli/#export) without hashes option.
+Alternatively, you can run ./install.sh to install the module into a virtual environment to be activated with
+
+```bash
+source /path/to/remarkable-layers/env/bin/activate
+```
 
 ## Core Dependencies
 
@@ -19,6 +23,8 @@ The core module for reading & writing rm line files only uses core python standa
 The SVG conversion module utilises numpy and lxml.
 
 The example scripts introduce other dependencies.
+
+To run pdf_converter.py you might need to install the [inkscape-applytransform](https://github.com/Klowner/inkscape-applytransforms) extension.
 
 ## Usage
 

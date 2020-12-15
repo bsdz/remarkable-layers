@@ -3,3 +3,4 @@
 .venv_pypy/
 .vscode/
 .env
+*.egg-info/

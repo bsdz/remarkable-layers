@@ -83,7 +83,8 @@ def svg_to_rmlines(buffer):
 
     TODO: check above before processing.
     """
-    root = ET.fromstring(buffer.read())
+    p = ET.XMLParser(huge_tree=True)
+    root = ET.fromstring(buffer.read(), parser=p)
 
     ins = RMLines()
     layer = Layer()

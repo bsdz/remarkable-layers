@@ -19,11 +19,13 @@ from rmlines import RMLines, Layer, Stroke, Segment, Colour, Pen, Width, X_MAX, 
 from rmlines.svg import apply_transform
 from rmlines.rmcloud import upload_rm_doc
 
+from subprocess import PIPE
+
 logger = logging.getLogger(__name__)
 
 
 def pdf_info(filename):
-    run = subprocess.run(["pdfinfo"] + [filename], capture_output=True,)
+    run = subprocess.run(["pdfinfo"] + [filename], stdout=PIPE, stderr=PIPE)
     return {
         line[0 : line.find(":")].strip(): line[line.find(":") + 1 :].strip()
         for line in run.stdout.decode("utf8").splitlines()
@@ -36,14 +38,17 @@ def run_inkscape(filename, args=[], actions=[]):
         + args
         + (["--actions=%s" % "; ".join(actions)] if actions else [])
         + [filename],
-        capture_output=True,
+        stdout=PIPE,
+        stderr = PIPE
     )
     logger.info(run.stderr.decode("ascii"))
 
 
 def resize_doc(stage_svg):
     # resize to remarkable size
-    root = ET.fromstring(stage_svg.read_bytes())
+    p = ET.XMLParser(huge_tree=True)
+    root = ET.fromstring(stage_svg.read_bytes(), parser=p)
+
     x_min, y_min, x_max, y_max = [float(s) for s in root.attrib["viewBox"].split(" ")]
 
     X_MAX, Y_MAX = 1404.0, 1872.0
@@ -105,7 +110,9 @@ def trace_image(data, transform):
 
 def prepare_images(stage_svg):
     """Traces bitmaps or removes them."""
-    root = ET.fromstring(stage_svg.read_bytes())
+
+    p = ET.XMLParser(huge_tree=True)
+    root = ET.fromstring(stage_svg.read_bytes(), parser=p)
     defs = root.find(".//defs", root.nsmap)
 
     # remove masks (appear to be redundant)
@@ -181,7 +188,8 @@ def flatten_beziers(svg_d):
 
 def transform_to_line_segments(stage_svg):
     """Converts bezier curves into straight line segments."""
-    root = ET.fromstring(stage_svg.read_bytes())
+    p = ET.XMLParser(huge_tree=True)
+    root = ET.fromstring(stage_svg.read_bytes(), parser=p)
     x_min, y_min, x_max, y_max = map(float, root.attrib["viewBox"].split(" "))
     for path in root.findall(".//path", root.nsmap):
         if "d" in path.attrib and path.attrib["d"]:
@@ -193,7 +201,8 @@ def transform_to_line_segments(stage_svg):
 def transform_paths(stage_svg):
     """Inkscapes deep ungroup doesn't handle paths with inline matrix
     transforms well. Transform them here instead"""
-    root = ET.fromstring(stage_svg.read_bytes())
+    p = ET.XMLParser(huge_tree=True)
+    root = ET.fromstring(stage_svg.read_bytes(), parser=p)
     for path in root.findall(".//path[@transform]", root.nsmap):
         trans_matrix = parse_transform(path.attrib.pop("transform"))
         svg_path = parse_path(path.attrib["d"])
@@ -217,7 +226,8 @@ def svgpathtools_flatten(stage_svg):
 def remove_groups(stage_svg):
     """Some empty groups left behind. Clean them up."""
     # TODO: assert groups are actually empty
-    root = ET.fromstring(stage_svg.read_bytes())
+    p = ET.XMLParser(huge_tree=True)
+    root = ET.fromstring(stage_svg.read_bytes(), parser=p)
     for g in root.findall("g", root.nsmap):
         path = g.find("path", root.nsmap)
         root.insert(0, path)
