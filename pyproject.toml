@@ -10,6 +10,7 @@ lxml = "^4.5.1"
 svgpathtools = { git = "https://github.com/mathandy/svgpathtools.git", rev = "f99f9d6bb3519ecdcb7b167f75a09178595cf89c" }
 rmapy = {git = "https://github.com/bsdz/rmapy.git", rev = "master"}
 pillow = "^7.1.2"
+numpy = "^1.19.4"
 pypotrace = {git = "https://github.com/flupke/pypotrace.git", rev = "master"}
 
 [tool.poetry.dev-dependencies]
