@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "remarkable-layers"
+name = "rmlines"
 version = "0.1.0"
 description = ""
 authors = ["Blair Azzopardi <blairuk@gmail.com>"]
