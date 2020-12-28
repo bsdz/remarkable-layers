@@ -21,6 +21,8 @@ from rmlines.rmcloud import upload_rm_doc
 
 logger = logging.getLogger(__name__)
 
+XML_PARSER = ET.XMLParser(huge_tree=True)
+
 
 def pdf_info(filename):
     run = subprocess.run(["pdfinfo"] + [filename], capture_output=True,)
@@ -43,7 +45,7 @@ def run_inkscape(filename, args=[], actions=[]):
 
 def resize_doc(stage_svg):
     # resize to remarkable size
-    root = ET.fromstring(stage_svg.read_bytes())
+    root = ET.fromstring(stage_svg.read_bytes(), parser=XML_PARSER)
     x_min, y_min, x_max, y_max = [float(s) for s in root.attrib["viewBox"].split(" ")]
 
     X_MAX, Y_MAX = 1404.0, 1872.0
@@ -105,7 +107,7 @@ def trace_image(data, transform):
 
 def prepare_images(stage_svg):
     """Traces bitmaps or removes them."""
-    root = ET.fromstring(stage_svg.read_bytes())
+    root = ET.fromstring(stage_svg.read_bytes(), parser=XML_PARSER)
     defs = root.find(".//defs", root.nsmap)
 
     # remove masks (appear to be redundant)
@@ -181,7 +183,7 @@ def flatten_beziers(svg_d):
 
 def transform_to_line_segments(stage_svg):
     """Converts bezier curves into straight line segments."""
-    root = ET.fromstring(stage_svg.read_bytes())
+    root = ET.fromstring(stage_svg.read_bytes(), parser=XML_PARSER)
     x_min, y_min, x_max, y_max = map(float, root.attrib["viewBox"].split(" "))
     for path in root.findall(".//path", root.nsmap):
         if "d" in path.attrib and path.attrib["d"]:
@@ -193,7 +195,7 @@ def transform_to_line_segments(stage_svg):
 def transform_paths(stage_svg):
     """Inkscapes deep ungroup doesn't handle paths with inline matrix
     transforms well. Transform them here instead"""
-    root = ET.fromstring(stage_svg.read_bytes())
+    root = ET.fromstring(stage_svg.read_bytes(), parser=XML_PARSER)
     for path in root.findall(".//path[@transform]", root.nsmap):
         trans_matrix = parse_transform(path.attrib.pop("transform"))
         svg_path = parse_path(path.attrib["d"])
@@ -217,7 +219,7 @@ def svgpathtools_flatten(stage_svg):
 def remove_groups(stage_svg):
     """Some empty groups left behind. Clean them up."""
     # TODO: assert groups are actually empty
-    root = ET.fromstring(stage_svg.read_bytes())
+    root = ET.fromstring(stage_svg.read_bytes(), parser=XML_PARSER)
     for g in root.findall("g", root.nsmap):
         path = g.find("path", root.nsmap)
         root.insert(0, path)
@@ -346,7 +348,7 @@ def generate_rmlines_and_upload(in_dir):
     upload_rm_doc(name, rms)
 
 
-if __name__ == "__main__":
+def main():
     logging.basicConfig(level="INFO")
 
     parser = ArgumentParser("Convert PDF into simple SVG.")
@@ -397,3 +399,7 @@ if __name__ == "__main__":
 
     if args.upload:
         generate_rmlines_and_upload(out_dir)
+
+
+if __name__ == "__main__":
+    main()

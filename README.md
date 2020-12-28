@@ -8,9 +8,30 @@ This module and supporting routines are experimental.
 
 ## Installation
 
-The module is still in development. You can install it by cloning this repository and using the [poetry install](https://python-poetry.org/docs/cli/#install) command.
+The module is still in development.
 
-Alternatively, you can use pip install -r requirements.txt. This was generated using [poetry export](https://python-poetry.org/docs/cli/#export) without hashes option.
+You can install it with the following pip command. This only installs the core rmlines module.
+
+```bash
+pip install git+https://github.com/bsdz/remarkable-layers.git#master
+```
+
+To install additional dependencies required for SVG export and Remarkable Cloud upload use:
+
+
+```bash
+pip install git+https://github.com/bsdz/remarkable-layers.git#master[extra]
+```
+
+To install all dependencies including those needed for example scripts below use:
+
+```bash
+pip install git+https://github.com/bsdz/remarkable-layers.git#master[all]
+```
+
+Alternatively, you can install it by cloning this repository and using the [poetry install](https://python-poetry.org/docs/cli/#install) command.
+
+
 
 ## Core Dependencies
 
@@ -63,14 +84,14 @@ rm0 = RMLines.from_svg(f.open("rb")
 
 ## Example Scripts
 
-### pdf_converter.py
+### rmlines_pdf_converter
 
 This script converts a pdf to several intermediate SVG files, one per page, then generates RM Lines notebook that is uploaded to Remarkable Cloud. The SVG output files are simplified SVG that the RM Lines module can process. That is all beziers have been linearized and raster images traced into paths. This can be time consuming.
 
 Typical usage:
 
 ```bash
-pdf_converter.py my_file.pdf --first 10 --last 25
+rmlines_pdf_converter my_file.pdf --first 10 --last 25
 ```
 
 Use "--help" flag for more options.
@@ -80,7 +101,7 @@ Use "--help" flag for more options.
 Applications: inkscape and pdfinfo. 
 Python modules: potrace, svgpathtools, svgwrite, pillow and rmapy. Note that in pyproject.toml some dependencies reference git branches / revisions and/or forks.
 
-### pen_gallery.py
+### pen_gallery
 
 This script uses hershey stroke fonts to place text in Remarkable lines files with different pen styles. More fonts are available at [SVG Fonts repo](ttps://gitlab.com/oskay/svg-fonts).
 
