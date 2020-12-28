@@ -10,23 +10,10 @@ This module and supporting routines are experimental.
 
 The module is still in development.
 
-You can install it with the following pip command. This only installs the core rmlines module.
+You can install it with the following pip command.
 
 ```bash
 pip install git+https://github.com/bsdz/remarkable-layers.git#master
-```
-
-To install additional dependencies required for SVG export and Remarkable Cloud upload use:
-
-
-```bash
-pip install git+https://github.com/bsdz/remarkable-layers.git#master[extra]
-```
-
-To install all dependencies including those needed for example scripts below use:
-
-```bash
-pip install git+https://github.com/bsdz/remarkable-layers.git#master[all]
 ```
 
 Alternatively, you can install it by cloning this repository and using the [poetry install](https://python-poetry.org/docs/cli/#install) command.

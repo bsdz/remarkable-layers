@@ -6,12 +6,12 @@ authors = ["Blair Azzopardi <blairuk@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-lxml = { version = "^4.5.1", optional = true}
-svgpathtools = { git = "https://github.com/mathandy/svgpathtools.git", rev = "f99f9d6bb3519ecdcb7b167f75a09178595cf89c", optional = true }
-rmapy = {git = "https://github.com/bsdz/rmapy.git", rev = "master", optional = true}
-pillow = { version = "^8.0.0", optional = true }
-numpy = { version = "^1.19.4", optional = true }
-potrace = {git = "https://github.com/bsdz/pypotrace.git", rev = "master", optional = true}
+lxml = { version = "^4.5.1" }
+svgpathtools = { git = "https://github.com/mathandy/svgpathtools.git", rev = "f99f9d6bb3519ecdcb7b167f75a09178595cf89c" }
+rmapy = {git = "https://github.com/bsdz/rmapy.git", rev = "master"}
+pillow = { version = "^8.0.0" }
+numpy = { version = "^1.19.4" }
+potrace = { git = "https://github.com/bsdz/pypotrace.git", rev = "master" }
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"
@@ -19,10 +19,6 @@ flake8 = "^3.8.2"
 ipykernel = "^5.3.0"
 snakeviz = "^2.1.0"
 rope = "^0.17.0"
-
-[tool.poetry.extras]
-extra = ["lxml", "numpy", "rmapy"]
-all = ["lxml", "numpy", "rmapy", "svgpathtools", "pillow", "potrace"]
 
 [tool.poetry.scripts]
 rmlines_pdf_converter = 'scripts.pdf_converter:main'
