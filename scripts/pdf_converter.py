@@ -327,10 +327,10 @@ def generate_template_layers(vertical_lines=True, horizontal_lines=True):
     return layers
 
 
-def generate_rmlines_and_upload(in_dir):
+def generate_rmlines_and_upload(in_dir, exclude_grid_layers=False):
     name = f"{in_dir.name}_rm"
 
-    base_layers = generate_template_layers()
+    base_layers = [] if exclude_grid_layers else generate_template_layers()
 
     def path_to_page_no(p):
         return int(p.with_suffix("").name.split("_")[1])
@@ -369,6 +369,13 @@ def main():
         help="Write over intermediate SVG files",
     )
     parser.add_argument(
+        "--exclude-grid-layers",
+        dest="exclude_grid_layers",
+        type=bool,
+        default=False,
+        help="Exclude note taking grid layers",
+    )
+    parser.add_argument(
         "--upload",
         dest="upload",
         type=bool,
@@ -398,7 +405,9 @@ def main():
         )
 
     if args.upload:
-        generate_rmlines_and_upload(out_dir)
+        generate_rmlines_and_upload(
+            out_dir, exclude_grid_layers=args.exclude_grid_layers
+        )
 
 
 if __name__ == "__main__":
