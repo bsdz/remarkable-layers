@@ -1,3 +1,5 @@
+Note: I am no longer using this project and I have archived it. Feel free to fork.
+
 # remarkable-layers
 
 Python module for reading and writing Remarkable Lines files (*.rm).
